@@ -1,11 +1,10 @@
 {
-  "name": "remove-old-releases",
+  "name": "database-tools",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "node ."
+    "start": "node"
   },
   "dependencies": {
     "@octokit/auth-app": "^2.4.7",

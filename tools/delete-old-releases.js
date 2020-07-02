@@ -6,7 +6,7 @@ const REPO_INFO = { owner: "EhTagTranslation", repo: "Database" };
 const REPO_PATH = path.resolve(path.join(__dirname, "../.."));
 const KEEP_RELEASE = 3;
 
-const AUTH_TOKEN = process.env["GitHub:Token"] || process.env.GITHUB_TOKEN;
+const AUTH_TOKEN = process.env.GITHUB_TOKEN;
 const ACTOR = process.env.GITHUB_ACTOR;
 
 async function deleteRelease() {
