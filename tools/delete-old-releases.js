@@ -3,7 +3,7 @@ const { Octokit } = require("@octokit/rest");
 const path = require("path");
 
 const REPO_INFO = { owner: "EhTagTranslation", repo: "Database" };
-const REPO_PATH = path.resolve(path.join(__dirname, "../.."));
+const REPO_PATH = path.resolve(path.join(__dirname, ".."));
 const KEEP_RELEASE = 3;
 
 const AUTH_TOKEN = process.env.GITHUB_TOKEN;
