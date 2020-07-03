@@ -37,6 +37,7 @@ jobs:
       with:
         owner: EhTagTranslation
         repo: Editor
+        tag: latest
         file: release.zip
     - name: Build
       run: |
