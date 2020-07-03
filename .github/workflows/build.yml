@@ -50,32 +50,35 @@ jobs:
         ${{github.event.head_commit.message}}
         EOF
         )"
-    - name: Upload release
-      uses: ncipollo/release-action@v1
-      with:
-        artifacts: ./publish/*
-        body: |
-          ${{github.event.before}}...${{github.event.after}}
-          
-          ${{github.event.head_commit.message}}
-        token: ${{ env.APP_TOKEN }}
-        commit: ${{ github.sha }}
-        tag: ${{ format('v-{0}', github.sha) }}
-        name: ${{ env.RELEASE_NAME }}
-    - name: Commit release branch
+    - name: Commit release mirror
       run: > 
         cd ./publish
         && (printf '${{ github.sha }}' > ./sha)
         && git init
         && git add .
         && git commit -am 'Release for https://github.com/EhTagTranslation/Database/commit/${{ github.sha }}'
-    - name: Push release branch
+        && echo "::set-env name=MIRROR_SHA::$(git rev-parse HEAD)"
+    - name: Push release mirror
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ env.APP_TOKEN }}
         force: true
         directory: ./publish
         repository: EhTagTranslation/DatabaseReleases
+    - name: Upload release
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: ./publish/*
+        body: |
+          ${{github.event.head_commit.message}}
+
+          上次发布以来的更改 https://github.com/EhTagTranslation/Database/compare/${{github.event.before}}...${{github.event.after}}
+
+          也可以从 [EhTagTranslation/DatabaseReleases](https://github.com/EhTagTranslation/DatabaseReleases/tree/${{ env.MIRROR_SHA }}>) 获取
+        token: ${{ env.APP_TOKEN }}
+        commit: ${{ github.sha }}
+        tag: ${{ format('v-{0}', github.sha) }}
+        name: ${{ env.RELEASE_NAME }}
     - name: Clean releases
       env:
         GITHUB_TOKEN: ${{ env.APP_TOKEN }}
